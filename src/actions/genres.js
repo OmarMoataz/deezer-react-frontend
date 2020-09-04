@@ -4,8 +4,7 @@ export const GET_GENRES_FAILURE = "GET_GENRES_FAILURE";
 
 export function getGenresRequest() {
   return {
-    type: GET_GENRES_REQUEST,
-    payload: true
+    type: GET_GENRES_REQUEST
   };
 }
 

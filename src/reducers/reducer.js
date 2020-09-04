@@ -13,7 +13,7 @@ const defaultState = {
 function reducer(state = defaultState, action) {
   switch (action.type) {
     case GET_GENRES_REQUEST:
-      return { ...state, loading: action.payload };
+      return { ...state, loading: true };
     case GET_GENRES_SUCCESS:
       return { ...state, loading: false, genres: action.payload };
     case GET_GENRES_FAILURE:
