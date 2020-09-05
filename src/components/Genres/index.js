@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Modal from "react-modal";
+import { withRouter } from 'react-router';
 
 import { getGenresDispatcher } from "../../redux/dispatchers/genreDispatchers";
 import { getArtistsDispatcher, clearArtistsDispatcher } from "../../redux/dispatchers/artistDispatchers";
@@ -13,6 +14,10 @@ class Genres extends Component {
 
   componentDidMount() {
     this.props.getGenres();
+    const genreId = this.props.match.params.id;
+    if (genreId) {
+      this.handleShowArtists(genreId);
+    }
   }
 
   render() {
@@ -24,9 +29,9 @@ class Genres extends Component {
     );
   }
 
-  handleShowArtists = (genreTitle, genreId) => {
+  handleShowArtists = (genreId) => {
     this.props.getArtists(genreId)();
-    this.setState({ genreTitle, isModalShown: true });
+    this.setState({ isModalShown: true });
   };
 
   handleCloseModal = () => {
@@ -60,7 +65,7 @@ class Genres extends Component {
           {genres.data.map((genre) => (
             <div key={genre.id}>
               <h2> {genre.name} </h2>
-              <button onClick={() => this.handleShowArtists(genre.name, genre.id)}> Show artists </button>
+              <button onClick={() => this.handleShowArtists(genre.id)}> Show artists </button>
               <img alt="genre" src={genre.picture} />
             </div>
           ))}
@@ -87,4 +92,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Genres);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Genres));
