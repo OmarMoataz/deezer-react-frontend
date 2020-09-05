@@ -11,7 +11,7 @@ export function getArtistsDispatcher(dispatch, genreId) {
   return function () {
     dispatch(getArtistsRequest());
     axios
-      .get(`https://cors-anywhere.herokuapp.com/https://api.deezer.com/genre/${genreId}/artists`)
+      .get(`${process.env.REACT_APP_GENRES_API}/${genreId}/artists`)
       .then((response) => {
         dispatch(getArtistsSuccess(response.data));
       })

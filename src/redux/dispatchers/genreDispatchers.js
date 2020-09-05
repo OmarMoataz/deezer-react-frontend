@@ -10,7 +10,7 @@ export function getGenresDispatcher(dispatch) {
   return function () {
     dispatch(getGenresRequest());
     axios
-      .get("https://cors-anywhere.herokuapp.com/https://api.deezer.com/genre")
+      .get(process.env.REACT_APP_GENRES_API)
       .then((response) => {
         dispatch(getGenresSuccess(response.data));
       })
