@@ -4,6 +4,7 @@ import {
   getArtistsRequest,
   getArtistsSuccess,
   getArtistsFailure,
+  clearArtists
 } from "../actions/artistActions";
 
 export function getArtistsDispatcher(dispatch, genreId) {
@@ -18,4 +19,10 @@ export function getArtistsDispatcher(dispatch, genreId) {
         dispatch(getArtistsFailure(error.message));
       });
   };
+}
+
+export function clearArtistsDispatcher(dispatch) {
+  return function() {
+    dispatch(clearArtists());
+  }
 }

@@ -2,6 +2,7 @@ import {
   GET_ARTISTS_SUCCESS,
   GET_ARTISTS_REQUEST,
   GET_ARTISTS_FAILURE,
+  CLEAR_ARTISTS
 } from "../actions/artistActions";
 
 const defaultState = {
@@ -18,6 +19,8 @@ function artistReducer(state = defaultState, action) {
       return { ...state, loading: false, data: action.payload.data };
     case GET_ARTISTS_FAILURE:
       return { ...state, loading: false, error: action.payload };
+    case CLEAR_ARTISTS:
+      return { ...state, data: [] }
     default:
       return state;
   }
