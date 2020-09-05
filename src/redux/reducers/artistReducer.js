@@ -7,7 +7,7 @@ import {
 const defaultState = {
   loading: false,
   error: "",
-  artists: { data: [] },
+  data: [],
 };
 
 function artistReducer(state = defaultState, action) {
@@ -15,7 +15,7 @@ function artistReducer(state = defaultState, action) {
     case GET_ARTISTS_REQUEST:
       return { ...state, loading: true };
     case GET_ARTISTS_SUCCESS:
-      return { ...state, loading: false, artists: action.payload.data };
+      return { ...state, loading: false, data: action.payload.data };
     case GET_ARTISTS_FAILURE:
       return { ...state, loading: false, error: action.payload };
     default:

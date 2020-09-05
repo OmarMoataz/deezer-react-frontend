@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { getGenresDispatcher } from "../../redux/dispatchers/genreActions";
+import { getArtistsDispatcher } from "../../redux/dispatchers/artistActions";
 
 class Genres extends Component {
   state = {
@@ -32,7 +33,7 @@ class Genres extends Component {
         {genres.data.map((genre) => (
           <div key={genre.id}>
             <h2> {genre.name} </h2>
-            <button onClick={this.handle}> Show artists </button>
+            <button onClick={this.props.getArtists(genre.id)}> Show artists </button>
             <img alt="genre" src={genre.picture} />
           </div>
         ))}
@@ -44,12 +45,14 @@ class Genres extends Component {
 function mapStateToProps(state) {
   return {
     genres: state.genres,
+    artists: state.artists
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     getGenres: getGenresDispatcher(dispatch),
+    getArtists: (genreId) => getArtistsDispatcher(dispatch, genreId)
   };
 }
 
