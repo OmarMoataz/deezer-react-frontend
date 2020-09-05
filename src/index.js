@@ -5,12 +5,12 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
-import reducer from "./reducers/reducer";
+import rootReducer from "./redux/reducers/rootReducer";
 
 
 const thunkMiddleware = require('redux-thunk').default;
 
-const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
 
 ReactDOM.render(

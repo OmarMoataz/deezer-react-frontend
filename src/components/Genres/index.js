@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { getGenresDispatcher } from "../../dispatchers/genres";
+import { getGenresDispatcher } from "../../redux/dispatchers/genreActions";
 
 class Genres extends Component {
+  state = {
+    modalShown: false
+  }
+
   componentDidMount() {
     this.props.getGenres();
   }
@@ -18,17 +22,18 @@ class Genres extends Component {
   }
 
   renderCurrentState = () => {
-    const { loading, error, genres } = this.props;
+    const { genres } = this.props;
 
-    if (loading) return <div> loading </div>;
-    if (error) return <div> {error} </div>;
+    if (genres.loading) return <div> loading </div>;
+    if (genres.error) return <div> {genres.error} </div>;
 
     return (
       <div>
         {genres.data.map((genre) => (
-          <div>
+          <div key={genre.id}>
             <h2> {genre.name} </h2>
-            <img src={genre.picture} />
+            <button onClick={this.handle}> Show artists </button>
+            <img alt="genre" src={genre.picture} />
           </div>
         ))}
       </div>
@@ -39,8 +44,6 @@ class Genres extends Component {
 function mapStateToProps(state) {
   return {
     genres: state.genres,
-    error: state.error,
-    loading: state.loading,
   };
 }
 

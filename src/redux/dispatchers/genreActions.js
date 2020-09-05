@@ -4,7 +4,7 @@ import {
   getGenresRequest,
   getGenresSuccess,
   getGenresFailure,
-} from "../actions/genres";
+} from "../actions/genreActions";
 
 export function getGenresDispatcher(dispatch) {
   return function () {
