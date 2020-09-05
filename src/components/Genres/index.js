@@ -1,10 +1,42 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Modal from "react-modal";
-import { withRouter } from 'react-router';
+import { withRouter } from "react-router";
+import styled from "styled-components";
 
 import { getGenresDispatcher } from "../../redux/dispatchers/genreDispatchers";
-import { getArtistsDispatcher, clearArtistsDispatcher } from "../../redux/dispatchers/artistDispatchers";
+import {
+  getArtistsDispatcher,
+  clearArtistsDispatcher,
+} from "../../redux/dispatchers/artistDispatchers";
+
+import Artists from '../Artists';
+
+const GenreListing = styled.div`
+  margin: 0 0.5rem;
+`
+
+const InfoWrapper = styled.div`
+  display: inline-block;
+  width: 50%;
+  margin-bottom: 10px;
+`;
+
+const GenreImage = styled.img`
+  display: inline-block;
+`;
+
+const ShowArtistsBtn = styled.button`
+  padding: 5px;
+`
+
+const ModalCloseBtn = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+`
+
+Modal.setAppElement('#root');
 
 class Genres extends Component {
   state = {
@@ -29,25 +61,25 @@ class Genres extends Component {
     );
   }
 
-  handleShowArtists = (genreId) => {
+  handleShowArtists = (genreId, genreTitle) => {
     this.props.getArtists(genreId)();
-    this.setState({ isModalShown: true });
+    this.setState({ genreTitle, isModalShown: true });
   };
 
   handleCloseModal = () => {
     this.props.clearArtists();
     this.setState({ isModalShown: false });
-  }
+  };
 
   renderCurrentState = () => {
     const { genres } = this.props;
     const { artists } = this.props;
-    
+
     const { isModalShown } = this.state;
 
     if (genres.loading) return <div> loading </div>;
     if (genres.error) return <div> {genres.error} </div>;
- 
+
     return (
       <>
         <Modal
@@ -55,21 +87,22 @@ class Genres extends Component {
           onRequestClose={this.handleCloseModal}
           contentLabel={this.state.genreTitle}
         >
-          {artists.loading && <p> Loading artists... </p>}
-          {artists.error && <p> {artists.error} </p>}
-          {artists.data.map(artist => (
-            <h3 key={artist.id}> {artist.name} </h3>
-          ))}
+          <ModalCloseBtn onClick={this.handleCloseModal}> X </ModalCloseBtn>
+          <Artists artists={artists} genreTitle={this.state.genreTitle}/>
         </Modal>
-        <div>
+        <GenreListing>
           {genres.data.map((genre) => (
             <div key={genre.id}>
-              <h2> {genre.name} </h2>
-              <button onClick={() => this.handleShowArtists(genre.id)}> Show artists </button>
-              <img alt="genre" src={genre.picture} />
+              <InfoWrapper>
+                <h2> {genre.name} </h2>
+                <ShowArtistsBtn onClick={() => this.handleShowArtists(genre.id, genre.name)}>
+                  Show artists
+                </ShowArtistsBtn>
+              </InfoWrapper>
+              <GenreImage alt="genre" src={genre.picture} />
             </div>
           ))}
-        </div>
+        </GenreListing>
       </>
     );
   };
@@ -88,7 +121,7 @@ function mapDispatchToProps(dispatch) {
     getArtists: (genreId) => {
       return getArtistsDispatcher(dispatch, genreId);
     },
-    clearArtists: clearArtistsDispatcher(dispatch)
+    clearArtists: clearArtistsDispatcher(dispatch),
   };
 }
 
