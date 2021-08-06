@@ -12,14 +12,27 @@ import {
 
 import Artists from '../Artists';
 
+const GenreItem = styled.div`
+  display: flex;
+  margin-bottom: 20px;
+`;
+
+const GenreTitle = styled.h2`
+  width: 100px;
+`;
+
 const GenreListing = styled.div`
   margin: 0 0.5rem;
 `
 
 const InfoWrapper = styled.div`
   display: inline-block;
-  width: 50%;
-  margin-bottom: 10px;
+  flex-grow: 1;
+
+  @media screen and (min-width: 568px) {
+    flex-grow: 0;
+    margin-right: 100px;
+  }
 `;
 
 const GenreImage = styled.img`
@@ -92,15 +105,15 @@ class Genres extends Component {
         </Modal>
         <GenreListing>
           {genres.data.map((genre) => (
-            <div key={genre.id}>
+            <GenreItem key={genre.id}>
               <InfoWrapper>
-                <h2> {genre.name} </h2>
+                <GenreTitle> {genre.name} </GenreTitle>
                 <ShowArtistsBtn onClick={() => this.handleShowArtists(genre.id, genre.name)}>
                   Show artists
                 </ShowArtistsBtn>
               </InfoWrapper>
               <GenreImage alt="genre" src={genre.picture} />
-            </div>
+            </GenreItem>
           ))}
         </GenreListing>
       </>
